@@ -4,12 +4,11 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.*
-import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.moonpi.swiftnotes.MainActivity
 import com.moonpi.swiftnotes.R
 import com.moonpi.swiftnotes.rule.SwiftnotesRule
-import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,6 +32,19 @@ class SimpleTest : AbstractSwiftnotesTest() {
             onView(allOf(withId(R.id.titleEdit), isDisplayed())).check(matches(withHint("Title")))
             onView(allOf(withId(R.id.bodyEdit), isDisplayed())).check(matches(withHint("Note")))
             deviceScreenshot("page_display")
+        }
+    }
+
+    @Test
+    @DisplayName("Проверка экрана создания заметки")
+    fun noteCreationScreen() {
+        rule.launchActivity()
+        step("Зайти в приложение") {
+            onView(withId(R.id.newNote)).perform(click())
+            onView(allOf(withId(R.id.titleEdit), isDisplayed())).check(matches(withHint("Title")))
+            onView(allOf(withId(R.id.bodyEdit), isDisplayed())).check(matches(withHint("Note")))
+            onView(allOf(withId(R.id.toolbar), isDisplayed()))
+            onView(allOf(withId(R.drawable.abc_ic_ab_back_material), isDisplayed())).perform(click())
         }
     }
 }
